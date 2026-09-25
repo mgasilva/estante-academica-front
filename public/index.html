@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Organize suas leituras e descubra livros no catálogo da Open Library.">
+  <title>Estante Acadêmica — Minhas leituras</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+  <header class="topbar">
+    <div class="brand"><span class="brand-icon" aria-hidden="true">EA</span><div><strong>Estante Acadêmica</strong><span>Conhecimento em construção</span></div></div>
+    <div class="connection" id="conexao" role="status"><span class="connection-dot"></span><span id="conexao-texto">Conectando à API…</span></div>
+  </header>
+  <main id="conteudo" class="container">
+    <section class="intro" aria-labelledby="titulo-pagina">
+      <div><p class="eyebrow">SEU ESPAÇO DE LEITURA</p><h1 id="titulo-pagina">Uma estante.<br>Novas possibilidades.</h1><p class="intro-text">Encontre livros, organize suas próximas leituras<br class="desktop-only"> e acompanhe o que você já aprendeu.</p></div>
+      <aside class="intro-aside"><span class="aside-number" aria-hidden="true">01 — 02 — 03</span><h2>Descubra. Leia. Conclua.</h2><p>Da curiosidade ao conhecimento,<br>um livro de cada vez.</p><button type="button" class="text-button" id="atalho-catalogo">Explorar o catálogo <span aria-hidden="true">↗</span></button></aside>
+    </section>
+    <section aria-label="Resumo de toda a estante" class="dashboard">
+      <div class="stat"><span class="stat-label">Livros na estante</span><strong id="total-livros">—</strong><span class="stat-foot">Sua coleção completa</span></div>
+      <div class="stat"><span class="stat-label"><i class="dot quero_ler"></i> Quero ler</span><strong id="total-quero_ler">—</strong><span class="stat-foot">Próximas descobertas</span></div>
+      <div class="stat"><span class="stat-label"><i class="dot lendo"></i> Lendo</span><strong id="total-lendo">—</strong><span class="stat-foot">Conhecimento em progresso</span></div>
+      <div class="stat"><span class="stat-label"><i class="dot concluido"></i> Concluídos</span><strong id="total-concluido">—</strong><span class="stat-foot" id="conclusao-texto">Aguardando dados</span></div>
+    </section>
+    <section class="distribution" aria-label="Distribuição dos estados de leitura">
+      <div class="distribution-title"><span>Seu percurso de leitura</span><span id="resumo-percurso">Aguardando dados da estante</span></div>
+      <div class="distribution-track" id="distribuicao" role="img" aria-label="Aguardando dados"><span class="quero_ler" id="barra-quero_ler"></span><span class="lendo" id="barra-lendo"></span><span class="concluido" id="barra-concluido"></span></div>
+    </section>
+    <div id="aviso-global" class="alert" role="alert" hidden></div>
+    <nav class="tabs" aria-label="Seções da estante">
+      <button class="tab active" type="button" id="tab-estante" aria-pressed="true" aria-controls="painel-estante">Minha estante <span class="tab-count" id="contagem-aba">—</span></button>
+      <button class="tab" type="button" id="tab-catalogo" aria-pressed="false" aria-controls="painel-catalogo">Buscar no catálogo <span class="external-tag">Open Library</span></button>
+    </nav>
+    <section id="painel-estante" aria-labelledby="titulo-estante" class="panel">
+      <div class="section-heading"><div><h2 id="titulo-estante">Suas leituras, em um só lugar</h2><p id="contagem-estante" aria-live="polite">Carregando sua estante…</p></div><div class="button-row"><button id="recarregar" type="button" class="button secondary">Atualizar</button><button id="cadastro-manual" type="button" class="button primary">＋ Cadastrar livro</button></div></div>
+      <div class="filters"><label class="grow" for="filtro-busca">Buscar na minha estante<input id="filtro-busca" type="search" placeholder="Título ou autor" maxlength="200"></label><label for="filtro-status">Estado da leitura<select id="filtro-status"><option value="">Todos os estados</option><option value="quero_ler">Quero ler</option><option value="lendo">Lendo</option><option value="concluido">Concluído</option></select></label><label for="ordenacao">Ordenar por<select id="ordenacao"><option value="recentes">Mais recentes</option><option value="titulo">Título (A–Z)</option><option value="ano">Ano (mais novo)</option></select></label></div>
+      <div id="lista-estante" class="books-grid" aria-busy="true"></div>
+      <div id="estante-vazia" class="empty-state" hidden><span class="empty-icon" aria-hidden="true">＋</span><h3 id="vazio-titulo">Sua estante começa com uma escolha</h3><p id="vazio-texto">Busque um livro no catálogo ou faça um cadastro manual.</p><button class="button secondary" type="button" id="vazio-acao">Buscar no catálogo</button></div>
+    </section>
+    <section id="painel-catalogo" aria-labelledby="titulo-catalogo" class="panel" hidden>
+      <div class="section-heading"><div><p class="eyebrow">DESCUBRA SUA PRÓXIMA LEITURA</p><h2 id="titulo-catalogo">Um catálogo além da sua estante</h2><p>Pesquise por título, autor ou assunto. Só salvamos os livros que você escolher.</p></div></div>
+      <form id="form-catalogo" class="catalog-search"><label class="grow" for="busca-catalogo">O que você quer ler?<input id="busca-catalogo" type="search" required minlength="2" maxlength="120" placeholder="Ex.: Python, eletrônica, Machado de Assis" autocomplete="off"></label><button class="button primary" id="buscar-catalogo" type="submit">Buscar livros</button></form>
+      <p class="source-note">Fonte: Open Library. O ano informado é o da primeira publicação da obra; pode não corresponder à edição que você tem.</p>
+      <div id="aviso-catalogo" class="alert" role="alert" hidden></div>
+      <p id="resultado-catalogo" class="result-count" aria-live="polite">Digite um termo para começar. A consulta é feita somente ao clicar em Buscar livros.</p>
+      <div id="lista-catalogo" class="books-grid" aria-busy="false"></div>
+      <div class="pagination" id="paginacao" hidden><button class="button secondary" type="button" id="pagina-anterior">← Anterior</button><span id="pagina-atual">Página 1</span><button class="button secondary" type="button" id="pagina-proxima">Próxima →</button></div>
+    </section>
+    <details class="technical"><summary>Por dentro da aplicação <span>Comunicação entre os componentes</span></summary><div class="technical-content"><p><strong>Interface → API → SQLite / Open Library.</strong> A interface envia requisições HTTP. O Nginx encaminha <code>/api/…</code> para o FastAPI; somente a API acessa o banco e o catálogo externo.</p><p>As últimas requisições desta aba aparecem abaixo, sem conteúdo dos livros ou credenciais. <a href="/arquitetura.svg" target="_blank" rel="noopener">Ver diagrama da arquitetura ↗</a></p><ol id="atividade" class="activity-log" aria-label="Últimas requisições HTTP"></ol></div></details>
+    <footer><span>Estante Acadêmica · MVP de Arquitetura de Software</span><span>HTML + CSS + JavaScript · FastAPI · SQLite</span></footer>
+  </main>
+  <dialog id="dialog-livro" aria-labelledby="dialog-titulo"><form id="form-livro"><div class="dialog-heading"><div><p class="eyebrow">MINHA ESTANTE</p><h2 id="dialog-titulo">Cadastrar livro</h2></div><button class="icon-button" type="button" data-fechar="dialog-livro" aria-label="Fechar formulário">×</button></div><div id="erro-form" class="alert" role="alert" hidden></div><label for="livro-titulo">Título (obrigatório)<input id="livro-titulo" required maxlength="300" autocomplete="off"></label><label for="livro-autores">Autores<input id="livro-autores" maxlength="500" placeholder="Separe os nomes por ponto e vírgula"></label><div class="form-row"><label for="livro-ano">Ano de publicação<input id="livro-ano" type="number" min="1" max="9999" step="1" placeholder="Opcional"></label><label for="livro-status">Estado da leitura<select id="livro-status"><option value="quero_ler">Quero ler</option><option value="lendo">Lendo</option><option value="concluido">Concluído</option></select></label></div><label for="livro-observacoes">Observações<textarea id="livro-observacoes" maxlength="5000" rows="4" placeholder="Anotações sobre esta leitura"></textarea></label><p id="origem-livro" class="source-note"></p><div class="dialog-actions"><button class="button secondary" type="button" data-fechar="dialog-livro">Cancelar</button><button class="button primary" id="salvar-livro" type="submit">Salvar livro</button></div></form></dialog>
+  <dialog id="dialog-excluir" aria-labelledby="excluir-titulo"><h2 id="excluir-titulo">Remover da estante?</h2><p id="excluir-texto"></p><p class="source-note">Isso apaga apenas o seu cadastro e suas observações. O catálogo externo não é alterado.</p><div id="erro-excluir" class="alert" role="alert" hidden></div><div class="dialog-actions"><button class="button secondary" type="button" data-fechar="dialog-excluir">Cancelar</button><button class="button danger" type="button" id="confirmar-exclusao">Remover livro</button></div></dialog>
+  <div id="notificacao" class="toast" role="status" aria-live="polite" hidden></div>
+  <noscript><p class="alert">Ative o JavaScript para utilizar esta aplicação.</p></noscript>
+</body>
+</html>

@@ -1,0 +1,9 @@
+{
+  "name": "estante-academica-front",
+  "version": "0.4.0",
+  "private": true,
+  "type": "module",
+  "description": "Interface da Estante Acadêmica sem dependências de JavaScript externas",
+  "scripts": {"test": "node --test tests/modelo.test.mjs"},
+  "engines": {"node": ">=20"}
+}

@@ -1,0 +1,36 @@
+name: estante-academica
+services:
+  api:
+    build:
+      context: ../estante-academica-api
+    image: estante-academica-api:dev
+    container_name: estante-api
+    environment:
+      DATABASE_PATH: /data/estante.db
+      OPEN_LIBRARY_CONTACT: ${OPEN_LIBRARY_CONTACT:-}
+    ports:
+      - "127.0.0.1:8000:8000"
+    volumes:
+      - dados:/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/', timeout=3).close()"]
+      interval: 5s
+      timeout: 4s
+      start_period: 10s
+      retries: 12
+  front:
+    build:
+      context: .
+    image: estante-academica-front:dev
+    container_name: estante-front
+    ports:
+      - "127.0.0.1:8080:80"
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+volumes:
+  dados:
+    external: true
+    name: estante-academica-dados
