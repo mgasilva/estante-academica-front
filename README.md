@@ -179,3 +179,16 @@ Os servidores dentro dos contêineres usam HTTP; o túnel do Codespaces fornece 
 HTTPS ao navegador. Os detalhes estão em [docs/etapa4.md](docs/etapa4.md).
 
 <!-- ESTANTE ETAPA 4: FIM -->
+
+### Diagnóstico de rede no GitHub Codespaces
+
+Durante a validação deste MVP, foram necessários ajustes específicos no
+firewall do ambiente de desenvolvimento para permitir a comunicação entre
+os contêineres e a consulta à Open Library.
+
+O diagnóstico, as correções testadas e suas limitações estão documentados em
+[Diagnóstico de rede no Codespaces](docs/rede-codespaces.md).
+
+Esses ajustes não são requisitos universais do Docker e não têm reaplicação
+automática configurada. A inicialização após reiniciar ou reconstruir o
+Codespace precisa ser validada separadamente.
